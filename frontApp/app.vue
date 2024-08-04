@@ -1,10 +1,20 @@
+<script setup>
+import { onMounted } from 'vue'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+// const resetError = (error) => {
+//   error.value = null;
+// };
+
+onMounted(() => {
+  userStore.initStore()
+}) 
+</script>
 <template>
   <div>
-    <!-- <NuxtRouteAnnouncer />
-    <NuxtWelcome /> -->
-    <h1 class="text-3xl font-bold underline text-blue-500">
-    Hello world!
-    </h1>
-    <!-- <NuxtPage /> -->
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
   </div>
 </template>
