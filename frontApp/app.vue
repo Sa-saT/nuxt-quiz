@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 
@@ -8,9 +8,9 @@ const userStore = useUserStore()
 // };
 
 onMounted(() => {
-  userStore.initStore()
+  userStore.fetchUser()
 }) 
-</script>
+</script> -->
 <template>
   <div>
       <NuxtLayout>

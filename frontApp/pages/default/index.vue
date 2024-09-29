@@ -1,9 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
+  <!-- <div>
     Page: default/index
-  </div>
+  </div> -->
+  <p></p>
 </template>
 
-<style scoped></style>
+<!-- <style scoped></style> -->

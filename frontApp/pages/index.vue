@@ -19,6 +19,4 @@ async function startForm() {
     </div>
     </label>
 
-
-
 </template>

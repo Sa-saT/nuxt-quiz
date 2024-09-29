@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 
 function logout() {
-    userStore.removeToken()
+    userStore.logout()
 }
 </script>
 
@@ -21,7 +21,7 @@ function logout() {
       <p class="text-gray-300">2024 Quiz</p>
       <div class="flex mt-6 md:mt-0 items-center space-x-4">
         
-        <template v-if="userStore.user.isAuthenticated">
+        <template v-if="userStore.user">
           <a href="#" @click.prevent="logout" class="py-4 px-6 bg-rose-600 hover:bg-rose-700 text-white rounded-xl cursor-pointer">Log out</a>
         </template>
 
