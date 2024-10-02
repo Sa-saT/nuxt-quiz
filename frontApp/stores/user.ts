@@ -100,3 +100,7 @@ export const useUserStore = defineStore('auth', {
         }
   },
 })
+
+// storesは関数(action)を定義して、state管理するとこ。画面遷移は関数(state)を呼び出すとこで組み合わせる。
+// https://reffect.co.jp/vue/vue-pinia
+// 書き直し！
