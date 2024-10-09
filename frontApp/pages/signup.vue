@@ -36,6 +36,7 @@
     } catch (error) {
       errors.value = [error.message || 'An error occurred during signup']
     }
+    // return navigateTo('/dashboard')
   }
   </script>
   

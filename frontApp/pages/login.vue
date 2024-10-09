@@ -34,5 +34,6 @@ const submitForm = async () => {
   } catch (error) {
     errors.value = [error.message || 'An error occurred during login']
   }
+  // return navigateTo('/dashboard')
 }
 </script>

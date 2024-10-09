@@ -1,5 +1,5 @@
 
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useRouter } from 'vue-router'
 
 interface User {
@@ -82,7 +82,7 @@ export const useUserStore = defineStore('auth', {
             await this.login(email, password)
 
             // サインイン後にダッシュボードにリダイレクト
-            router.push('/dashboard')
+            // router.push('/dashboard')
             } catch (error) {
             console.error('Signup error:', error)
             }
@@ -100,7 +100,10 @@ export const useUserStore = defineStore('auth', {
         }
   },
 })
-
+// make sure to pass the right store definition, `useUserStore` in this case.
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
+  }
 // storesは関数(action)を定義して、state管理するとこ。画面遷移は関数(state)を呼び出すとこで組み合わせる。
 // https://reffect.co.jp/vue/vue-pinia
 // 書き直し！
