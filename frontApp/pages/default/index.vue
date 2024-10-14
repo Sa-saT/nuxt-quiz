@@ -4,7 +4,7 @@
   <!-- <div>
     Page: default/index
   </div> -->
-  <p></p>
+  <p>hello</p>
 </template>
 
 <!-- <style scoped></style> -->

@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { navigateTo } from "nuxt/app"
 
 const email = ref('')
 const password = ref('')
@@ -31,6 +32,7 @@ const authStore = useUserStore()
 const submitForm = async () => {
   try {
     await authStore.login(email.value, password.value)
+      navigateTo('/dashboard')
   } catch (error) {
     errors.value = [error.message || 'An error occurred during login']
   }
