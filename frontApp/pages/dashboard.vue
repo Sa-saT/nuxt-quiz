@@ -9,16 +9,24 @@
   import { ref, onMounted } from 'vue'
   import { useUserStore } from '@/stores/user'
   
-  const data = ref(null)
+  const userStore = useUserStore()
+  const router = useRouter()
+
+  onMounted(() => {
+    if (!userStore.user) {
+        router.push('/login')
+    }
+})
+
+  const data = ref([])
   
   async function fetchProtectedData() {
-    const authStore = useUserStore()
-  
-    if (authStore.token) {
+
+    if (userStore.token) {
       try {
-        const response = await $fetch('http://localhost:8000/quizes/', {
+        const response = await $fetch('http://localhost:8000/api/quizes/', {
           headers: {
-            Authorization: `Bearer ${authStore.token}`,
+            Authorization: `Bearer ${userStore.token}`,
           },
         })
         data.value = response
@@ -28,6 +36,6 @@
     }
   }
   
-  onMounted(fetchProtectedData)
+  // onMounted(fetchProtectedData)
   </script>
   
