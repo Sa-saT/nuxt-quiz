@@ -5,6 +5,7 @@ const userStore = useUserStore()
 
 function logout() {
     userStore.logout()
+    navigateTo('/')
 }
 </script>
 
@@ -22,7 +23,7 @@ function logout() {
       <div class="flex mt-6 md:mt-0 items-center space-x-4">
         
         <template v-if="userStore.user">
-          <a href="#" @click.prevent="logout" class="py-4 px-6 bg-rose-600 hover:bg-rose-700 text-white rounded-xl cursor-pointer">Log out</a>
+          <a href="/index.html" @click.prevent="logout" class="py-4 px-6 bg-rose-600 hover:bg-rose-700 text-white rounded-xl cursor-pointer">Log out</a>
         </template>
 
         <template v-else>

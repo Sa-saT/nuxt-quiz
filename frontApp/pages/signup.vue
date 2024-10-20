@@ -34,7 +34,7 @@
   const submitForm = async () => {
     try {
       await authStore.signup(email.value, password1.value, password2.value)
-      navigateTo('/dashboard')
+      navigateTo('/top')
     } catch (error) {
       errors.value = [error.message || 'An error occurred during signup']
     }

@@ -2,6 +2,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useRouter } from 'vue-router'
 
+const router = useRouter();  // Vue Routerインスタンスを取得
+
 interface User {
     id: number;
     email: string;
@@ -23,8 +25,7 @@ export const useUserStore = defineStore('auth', {
 
         // ログイン処理
         async login(email: string, password: string): Promise<void> {
-            const router = useRouter();  // Vue Routerインスタンスを取得
-
+            
             try {
             // JWTトークンを取得
             const response = await $fetch<{ access: string }>('http://localhost:8000/auth/login/', {
@@ -40,7 +41,7 @@ export const useUserStore = defineStore('auth', {
             localStorage.setItem('authToken', this.token)
 
             // ログイン成功後にダッシュボードにリダイレクト
-            router.push('/dashboard')
+            router.push('/top')
             } catch (error) {
             console.error('Login error:', error)
             }
@@ -66,7 +67,7 @@ export const useUserStore = defineStore('auth', {
 
         // サインイン処理 (新規ユーザー登録)
         async signup(email: string, password: string, password2: string): Promise<void> {
-            const router = useRouter();  // Vue Routerインスタンスを取得
+
             if (password !== password2) {
             throw new Error("Passwords do not match");
             }
@@ -95,8 +96,7 @@ export const useUserStore = defineStore('auth', {
             // トークンを削除してセッションをクリア
             localStorage.removeItem('authToken')
 
-            const router = useRouter()
-            router.push('/login')  // ログアウト後にログインページにリダイレクト
+            // router.push('/')  // ログアウト後にログインページにリダイレクト
         }
   },
 })
