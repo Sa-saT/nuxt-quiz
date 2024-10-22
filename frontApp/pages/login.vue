@@ -34,7 +34,7 @@ const submitForm = async () => {
     await authStore.login(email.value, password.value)
       navigateTo('/top')
   } catch (error) {
-    errors.value = [errors.message || 'An error occurred during login']
+    errors.value = [(error as Error).message || 'An error occurred during login']
   }
 }
 </script>

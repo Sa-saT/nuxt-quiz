@@ -36,9 +36,8 @@
       await authStore.signup(email.value, password1.value, password2.value)
       navigateTo('/top')
     } catch (error) {
-      errors.value = [error.message || 'An error occurred during signup']
+      errors.value = [(error as Error).message || 'An error occurred during signup']
     }
-    // return navigateTo('/dashboard')
   }
   </script>
   

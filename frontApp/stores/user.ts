@@ -1,5 +1,5 @@
 
-import { defineStore, acceptHMRUpdate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 
 const router = useRouter();  // Vue Routerインスタンスを取得
@@ -41,7 +41,8 @@ export const useUserStore = defineStore('auth', {
             localStorage.setItem('authToken', this.token)
 
             // ログイン成功後にダッシュボードにリダイレクト
-            router.push('/top')
+            // router.push('/top')
+            console.log("login ok")
             } catch (error) {
             console.error('Login error:', error)
             }
@@ -58,6 +59,7 @@ export const useUserStore = defineStore('auth', {
                 Authorization: `Bearer ${this.token}`,
                 },
             })
+            console.log("fetch token")
             return user
             } catch (error) {
             console.error('Fetch user error:', error)
@@ -77,11 +79,12 @@ export const useUserStore = defineStore('auth', {
             await $fetch('http://localhost:8000/auth/user/create/', {
                 method: 'POST',
                 body: { email, password },
-            })
 
+            })
+            console.log("Create user")
             // ユーザー登録成功後に自動的にログイン
             await this.login(email, password)
-
+            console.log("Signup&Login user")
             // サインイン後にダッシュボードにリダイレクト
             // router.push('/dashboard')
             } catch (error) {
@@ -95,7 +98,9 @@ export const useUserStore = defineStore('auth', {
             this.user = null
             // トークンを削除してセッションをクリア
             localStorage.removeItem('authToken')
-
+            console.log("token:", this.token)
+            console.log("user:", this.user)
+            console.log("Logout")
             // router.push('/')  // ログアウト後にログインページにリダイレクト
         }
   },
