@@ -32,9 +32,10 @@ const authStore = useUserStore()
 const submitForm = async () => {
   try {
     await authStore.login(email.value, password.value)
-      navigateTo('/top')
+    navigateTo('/top')
   } catch (error) {
-    errors.value = [(error as Error).message || 'An error occurred during login']
+      errors.value = [(error as Error).message || 'An error occurred during login']
+    throw error
   }
 }
 </script>

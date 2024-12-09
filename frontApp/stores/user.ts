@@ -1,8 +1,8 @@
 
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
-const router = useRouter();  // Vue Routerインスタンスを取得
+// const router = useRouter();  // Vue Routerインスタンスを取得
 
 interface User {
     id: number;
@@ -17,53 +17,59 @@ interface UserState {
 
 export const useUserStore = defineStore('auth', {
     state: (): UserState => ({
-        token: null,  // JWTトークン
+        token: null,
         user: null,   // ユーザー情報
     }),
 
     actions: {
 
+        // async initializeUser() {
+        //     onMounted(() => {  // onMountedを使用してクライアントサイドでのみ実行
+        //         const token = localStorage.getItem('authToken')
+        //         if (token) {
+        //             this.token = token
+        //             this.fetchUser()
+        //         }
+        //     })
+        // },
         // ログイン処理
         async login(email: string, password: string): Promise<void> {
             
             try {
-            // JWTトークンを取得
-            const response = await $fetch<{ access: string }>('http://localhost:8000/auth/login/', {
-                method: 'POST',
-                body: { email, password },
-            })
+                // JWTトークンを取得
+                const response = await $fetch<{ access: string }>('http://localhost:8000/auth/login/', {
+                    method: 'POST',
+                    body: { email, password },
+                })
+                console.log('response: ', response)
+                // トークンとユーザー情報をPiniaストアに保存
+                this.token = response.access
+                this.user = await this.fetchUser()
 
-            // トークンとユーザー情報をPiniaストアに保存
-            this.token = response.access
-            this.user = await this.fetchUser()
+                // トークンをLocalStorageに保存して、リロード後もセッション維持
+                localStorage.setItem('authToken', this.token)
 
-            // トークンをLocalStorageに保存して、リロード後もセッション維持
-            localStorage.setItem('authToken', this.token)
-
-            // ログイン成功後にダッシュボードにリダイレクト
-            // router.push('/top')
-            console.log("login ok")
+                console.log("login ok")
             } catch (error) {
-            console.error('Login error:', error)
+                console.error('Login error:', error)
             }
         },
 
         // ユーザー情報を取得
         async fetchUser(): Promise<User | null> {
             if (!this.token) return null
-
-            try {
             // トークンを使って認証されたユーザー情報を取得
-            const user = await $fetch<User>('http://localhost:8000/auth/v1/users/me/', {
-                headers: {
-                Authorization: `Bearer ${this.token}`,
-                },
-            })
-            console.log("fetch token")
-            return user
+            try {
+                const user = await $fetch<User>('http://localhost:8000/auth/v1/users/me/', {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                })
+                console.log("fetch token")
+                return user
             } catch (error) {
-            console.error('Fetch user error:', error)
-            return null
+                console.error('Fetch user error:', error)
+                return null
             }
         },
 

@@ -59,7 +59,14 @@ REST_FRAMEWORK = {
     ]
 }
 
+# APIの許可(CORSポリシー)
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+# 安全なOriigin(CSRF 保護用)
+CORS_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
@@ -155,7 +162,8 @@ AUTH_PASSWORD_VALIDATORS = [
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1), # アクセストークンの有効期限（1時間）
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # リフレッシュトークンの有効期限（1日）
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    # Authorization: JWT <access_token>ヘッダーを設定
+    'AUTH_HEADER_TYPES': ('JWT',),
     # 認証トークン
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', ), # トークンのクラス
     'ROTATE_REFRESH_TOKENS': True, # リフレッシュトークンを再発行するか
