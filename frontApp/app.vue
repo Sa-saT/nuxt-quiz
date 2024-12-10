@@ -7,7 +7,7 @@ const userStore = useUserStore()
 
 onMounted(() => {
   // userStore.initializeUser()
-  userStore.fetchUser()
+  userStore.initialize()
 }) 
 </script>
 

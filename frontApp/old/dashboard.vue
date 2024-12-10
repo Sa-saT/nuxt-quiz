@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div>
       <h1>Protected Data</h1>
       <div v-if="data">{{ data }}</div>
@@ -38,4 +38,4 @@
   
   // onMounted(fetchProtectedData)
   </script>
-  
+   -->
