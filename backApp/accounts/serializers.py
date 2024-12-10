@@ -1,22 +1,14 @@
-from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
 
-class UserCreateSerializer(BaseUserCreateSerializer):
-
-    def validate_password(self, value: str) -> str:
-        return make_password(value)
-    
-    class Meta(BaseUserCreateSerializer.Meta):
+class CustomUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ['id', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('id', 'email', 'name', 'password')
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        data.update({'email': self.user.email})
-        return data
+class CustomUserSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        model = User
+        fields = ('id', 'email', 'name')

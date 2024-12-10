@@ -1,4 +1,3 @@
-
 from pathlib import Path
 from datetime import timedelta
 import environ
@@ -173,11 +172,12 @@ SIMPLE_JWT = {
 
 
 DJOSER = {
+    'SEND_ACTIVATION_EMAIL': False,  # メール認証を無効化
     'LOGIN_FIELD': 'email',
     'SERIALIZERS': {
-        'user_create': 'accounts.serializers.UserCreateSerializer',  # ユーザー作成用シリアライザー
-        'current_user': 'accounts.serializers.UserCreateSerializer',  # 現在のユーザー情報用シリアライザー
-        'token_obtain_pair': 'accounts.serializers.CustomTokenObtainPairSerializer',  # カスタムJWTトークンシリアライザー
+        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
+        'user': 'accounts.serializers.CustomUserSerializer',
+        'current_user': 'accounts.serializers.CustomUserSerializer',
     },
     'ACTIVATION_URL': 'auth/activate/{uid}/{token}',  # ユーザーアクティベーション用のURL
     'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',  # パスワードリセット用のURL
