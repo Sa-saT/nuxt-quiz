@@ -1,6 +1,9 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  modules: [
+    '@pinia/nuxt',
+  ],
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
@@ -8,9 +11,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: [
-    '@pinia/nuxt',
-  ],
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true }
 })

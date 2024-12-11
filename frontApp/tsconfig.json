@@ -2,11 +2,10 @@
   "extends": "./.nuxt/tsconfig.json",  // Nuxtのデフォルトtsconfigを拡張
   "compilerOptions": {
     // "verbatimModuleSyntax": false,
-    // "types": ["pinia"],
+    "types": ["pinia"],
     "baseUrl": ".",  // プロジェクトルートを基準にパス解決
     "paths": {
-      "@/*": ["./*"],  // エイリアス@でルートディレクトリを参照
-      // "@/*": ["./frontApp/*"],
+      "@/*": ["./*"]
     },
     "strict": true,  // 厳密な型チェックを有効化
     "esModuleInterop": true  // ESモジュールとの互換性を有効化

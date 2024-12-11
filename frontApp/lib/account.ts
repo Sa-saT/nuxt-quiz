@@ -3,6 +3,10 @@ interface LoginResponse {
     refresh: string;
 }
 
+interface RefreshResponse {
+    access: string;
+}
+
 interface User {
     id: number;
     email: string;
@@ -11,7 +15,7 @@ interface User {
 
 // ログインAPIリクエスト
 export async function loginApi(email: string, password: string): Promise<LoginResponse> {
-    const response = await fetch('http://localhost:8000/auth/v1/jwt/create/', {
+    const response = await fetch('http://127.0.0.1:8000/auth/v1/jwt/create/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -24,9 +28,24 @@ export async function loginApi(email: string, password: string): Promise<LoginRe
     return response.json();
 }
 
+// トークンリフレッシュAPIリクエスト
+export async function refreshTokenApi(refreshToken: string): Promise<RefreshResponse> {
+    const response = await fetch('http://127.0.0.1:8000/auth/v1/jwt/refresh/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh: refreshToken }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to refresh token');
+    }
+
+    return response.json();
+}
+
 // ユーザー情報取得APIリクエスト
 export async function fetchUserApi(token: string): Promise<User> {
-    const response = await fetch('http://localhost:8000/auth/v1/users/me/', {
+    const response = await fetch('http://127.0.0.1:8000/auth/v1/users/me/', {
         headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -39,7 +58,7 @@ export async function fetchUserApi(token: string): Promise<User> {
 
 // 新規登録APIリクエスト
 export async function signupApi(email: string, password: string, name: string): Promise<void> {
-    const response = await fetch('http://localhost:8000/auth/v1/users/', {
+    const response = await fetch('http://127.0.0.1:8000/auth/v1/users/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name }),

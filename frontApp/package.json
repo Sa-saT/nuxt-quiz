@@ -12,7 +12,8 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.12.3",
-    "vue": "latest"
+    "pinia": "^2.3.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

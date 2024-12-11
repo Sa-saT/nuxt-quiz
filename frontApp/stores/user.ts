@@ -2,7 +2,8 @@
 // 必要な分の/lib/account.ts からかんすうを利用する。
 
 import { defineStore } from 'pinia'
-import { loginApi, fetchUserApi, signupApi } from '@/lib/account'
+import { loginApi, fetchUserApi, signupApi, refreshTokenApi } from '@/lib/account'
+import { navigateTo } from "nuxt/app"
 
 interface User {
     id: number;
@@ -11,79 +12,25 @@ interface User {
 }
 
 interface UserState {
-    token: string | null;
+    accessToken: string | null;
+    refreshToken: string | null;
     user: User | null;
 }
 
 export const useUserStore = defineStore('auth', {
     state: (): UserState => ({
-        // token: localStorage.getItem('authToken'), // トークンをローカルストレージから復元
-        token: null,
+        accessToken: null,
+        refreshToken: null,
         user: null,
     }),
 
     actions: {
-        // ログイン処理
-        async login(email: string, password: string): Promise<void> {
-            try {
-                const { access } = await loginApi(email, password);
-                this.token = access;
-
-                // トークンをローカルストレージに保存
-                localStorage.setItem('authToken', this.token);
-
-                // ユーザー情報を取得
-                this.user = await this.fetchUser();
-                console.log('Login successful');
-            } catch (error) {
-                console.error('Login error:', error);
-                throw error;
-            }
-        },
-
-        // ユーザー情報を取得
-        async fetchUser(): Promise<User | null> {
-            if (!this.token) return null;
-
-            try {
-                const user = await fetchUserApi(this.token);
-                this.user = user;
-                console.log('User fetched:', user);
-                return user;
-            } catch (error) {
-                console.error('Fetch user error:', error);
-                this.logout(); // トークンが無効な場合にログアウト
-                return null;
-            }
-        },
-
-        // サインイン処理 (新規ユーザー登録)
-        async signup(email: string, password: string, password2: string, name: string): Promise<void> {
-            if (password !== password2) {
-                throw new Error('Passwords do not match');
-            }
-
-            try {
-                await signupApi(email, password, name);
-                console.log('User registered successfully');
-                await this.login(email, password); // 自動ログイン
-            } catch (error) {
-                console.error('Signup error:', error);
-                throw error;
-            }
-        },
-
-        // ログアウト処理
-        logout(): void {
-            this.token = null;
-            this.user = null;
-            localStorage.removeItem('authToken'); // トークンを削除
-            console.log('User logged out');
-        },
-
-        // アプリ起動時にトークンがあれば自動ログインを試行
         async initialize(): Promise<void> {
-            if (this.token) {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (accessToken && refreshToken) {
+                this.accessToken = accessToken;
+                this.refreshToken = refreshToken;
                 try {
                     this.user = await this.fetchUser();
                     console.log('Session restored');
@@ -92,6 +39,77 @@ export const useUserStore = defineStore('auth', {
                     this.logout();
                 }
             }
+        },
+
+        async login(email: string, password: string): Promise<void> {
+            try {
+                const { access, refresh } = await loginApi(email, password);
+                this.accessToken = access;
+                this.refreshToken = refresh;
+
+                localStorage.setItem('accessToken', this.accessToken);
+                localStorage.setItem('refreshToken', this.refreshToken);
+
+                this.user = await this.fetchUser();
+                console.log('Login successful');
+                navigateTo('/top');
+            } catch (error) {
+                console.error('Login error:', error);
+                throw error;
+            }
+        },
+
+        async fetchUser(): Promise<User | null> {
+            if (!this.accessToken) return null;
+
+            try {
+                const user = await fetchUserApi(this.accessToken);
+                this.user = user;
+                console.log('User fetched:', user);
+                return user;
+            } catch (error) {
+                console.error('Fetch user error:', error);
+                await this.refreshAccessToken();
+                return null;
+            }
+        },
+
+        async refreshAccessToken(): Promise<void> {
+            if (!this.refreshToken) return;
+
+            try {
+                const { access } = await refreshTokenApi(this.refreshToken);
+                this.accessToken = access;
+                localStorage.setItem('accessToken', this.accessToken);
+                console.log('Access token refreshed');
+            } catch (error) {
+                console.error('Failed to refresh access token:', error);
+                this.logout();
+            }
+        },
+
+        async signup(email: string, password: string, password2: string, name: string): Promise<void> {
+            if (password !== password2) {
+                throw new Error('Passwords do not match');
+            }
+
+            try {
+                await signupApi(email, password, name);
+                console.log('User registered successfully');
+                await this.login(email, password);
+            } catch (error) {
+                console.error('Signup error:', error);
+                throw error;
+            }
+        },
+
+        logout(): void {
+            this.accessToken = null;
+            this.refreshToken = null;
+            this.user = null;
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            console.log('User logged out');
         },
     },
 });

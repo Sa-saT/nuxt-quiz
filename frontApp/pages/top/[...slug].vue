@@ -1,28 +1,28 @@
 <template>
     <div>
-        <h1 v-if="user">ようこそ {{ user.name }}さん</h1>
+        <h1 v-if="user">ようこそ {{ user }}さん</h1>
         <div class="flex justify-center items-center h-screen bg-gray-100">
             <p class="text-2xl font-mono text-gray-800">
                 <span>{{ displayedText }}</span><span class="blinking-cursor">|</span>
             </p>
         </div>
-        <p>{{ $route.params.slug }}</p>
+        <p>{{ $route.params.id }}</p>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, unref } from 'vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
-const user = computed(() => userStore.user)
+const user = computed(() => userStore.user?.name || 'no name')
 
 // 変数
 const msg = 'Test'
-console.log(msg)
+console.log(msg, 'user :', unref(user))
 
 // 表示するテキストを定義
-const text: string = 'Welcome to the ' + msg + ' ! Hello World!'
+const text: string = 'Welcome to the ' + unref(user) + '! Hello World!'
 // 表示中のテキストを格納するリアクティブ変数
 const displayedText = ref<string>('')
 // 現在のインデックス

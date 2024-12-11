@@ -4,21 +4,21 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 
 function logout() {
-    userStore.logout()
-    navigateTo('/')
+    userStore.logout();
+    navigateTo('/');
 }
 </script>
 
 <template>
   <div>
-    <nav class="p-6 flex items-center justify-between bg-teal-800">
-    <div class="flex items-center space-x-4">
-    <NuxtLink to="/" class="text-white hover:text-teal-300">Home</NuxtLink>
-  </div>
-    </nav>
+    <header class="p-6 flex items-center justify-between bg-teal-800">
+      <div class="flex items-center space-x-4">
+        <NuxtLink to="/" class="text-white hover:text-teal-300">Home</NuxtLink>
+      </div>
+    </header>
     <slot />
-
-    <footer class="p-6 flex flex-warp items-center justify-between bg-gray-800">
+    <div class="flex flex-col min-h-screen"></div>
+    <footer class="mt-auto p-6 flex flex-warp items-center justify-between bg-gray-800">
       <p class="text-gray-300">2024 Quiz</p>
       <div class="flex mt-6 md:mt-0 items-center space-x-4">
         

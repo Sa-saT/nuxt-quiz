@@ -162,12 +162,12 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1), # アクセストークンの有効期限（1時間）
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # リフレッシュトークンの有効期限（1日）
     # Authorization: JWT <access_token>ヘッダーを設定
-    'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('Bearer',),
     # 認証トークン
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', ), # トークンのクラス
     'ROTATE_REFRESH_TOKENS': True, # リフレッシュトークンを再発行するか
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY, # トークンの署名に使用するキー
+    'SIGNING_KEY': SECRET_KEY, # トークンの署名に使用するキ
 }
 
 
