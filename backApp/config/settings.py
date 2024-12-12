@@ -113,19 +113,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quiz_db',  # データベース名
-        'USER': 'quiz_user',        # PostgreSQLのユーザー名
-        'PASSWORD': 'heipei8X',    # PostgreSQLのパスワード
-        'HOST': 'localhost',             # 通常はlocalhost
-        'PORT': '5432',                  # PostgreSQLのデフォルトポート
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'quiz_db',  # データベース名
+    #     'USER': 'quiz_user',        # PostgreSQLのユーザー名
+    #     'PASSWORD': 'heipei8X',    # PostgreSQLのパスワード
+    #     'HOST': 'localhost',             # 通常はlocalhost
+    #     'PORT': '5432',                  # PostgreSQLのデフォルトポート
+    # }
+    'default': env.db(),
 }
-
-# DATABASE = {
-#     'default': env.db(),
-# }
 
 # CACHES = {
 #     "default": {
