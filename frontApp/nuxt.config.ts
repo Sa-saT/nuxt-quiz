@@ -16,11 +16,12 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  // router: {
-  //   base: '/<repository-name>/'
-  // },
+  app: {
+    baseURL: '/nuxt-quiz/'  // リポジトリ名を指定
+  },
   // publicRuntimeConfig: {
   //   apiUrl: process.env.API_URL || 'http://localhost:8000'
   // },
   // ssr: false,
 })
+ 

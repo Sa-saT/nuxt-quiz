@@ -1,0 +1,56 @@
+name: Build and Deploy
+# ワークフローの手動実行
+on: 
+  workflow_dispatch:
+
+# Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+permissions:
+  contents: read
+  pages: write      # to deploy to Pages
+  id-token: write   # to verify the deployment originates from an appropriate source
+  
+defaults:
+  run:
+    shell: bash # ワークフローで使うシェルをまとめて指定
+    working-directory: frontend
+
+jobs:
+  build-and-deploy:
+    # '"ci"としてjobsを実行する'と名前を付けて、
+    # 他のjobsが実行された際に並行実行できるようにしてある。
+    # Recommended if you intend to make multiple deployments in quick succession.
+    # concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.12.2]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15
+          run_install: false
+
+      - name: Use Node.js ${{ matrix.node-version }}  
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install & Generate 🔧
+        run: |
+          pnpm install
+          pnpm generate
+      # ---------------------
+      # ビルド成果物を GitHub Pages にデプロイ
+      # ---------------------
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .output/public
+          clean: true # 毎回一旦クリーンアップする
+          commitMessage: Deploy Nuxt3  # デプロイコミット時のメッセージ
