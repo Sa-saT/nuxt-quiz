@@ -1,0 +1,1 @@
+import{c as t,d as l,a as e,o as s}from"./C2TCE_Pl.js";const c={__name:"index",setup(o){return(r,a)=>(s(),t("label",null,a[0]||(a[0]=[l("Level> "),e("div",{class:"grid"},[e("select",{class:"appearance-none row-start-1 col-start-1 bg-slate-50 dark:bg-slate-800 ..."},[e("option",null,"easy"),e("option",null,"dificult")])],-1)])))}};export{c as default};
