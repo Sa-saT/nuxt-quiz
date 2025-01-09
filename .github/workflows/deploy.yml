@@ -54,6 +54,7 @@ jobs:
 
       - name: Install & Generate 🔧
         run: |
+          pnpm -v
           pnpm install
           pnpm generate
       # ---------------------
@@ -65,6 +66,6 @@ jobs:
           branch: gh-pages
           folder: frontApp/.output/public
           clean: true # 毎回一旦クリーンアップする
-          commitMessage: Deploy Nuxt3  # デプロイコミット時のメッセージ
+          commit-message: 'Deploy Nuxt3'  # デプロイコミット時のメッセージ
           force: true # 強制push
           token: ${{ secrets.GITHUB_TOKEN }} #secrets でGITHUB_TOKENを使う

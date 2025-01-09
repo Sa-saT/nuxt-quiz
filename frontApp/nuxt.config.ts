@@ -1,9 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  // app: {
-  //   cdnURL: '/nuxt-quiz/'
-  // },
   modules: [
     '@pinia/nuxt',
   ],
