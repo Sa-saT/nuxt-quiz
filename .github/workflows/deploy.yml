@@ -5,7 +5,7 @@ on:
 
 # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 permissions:
-  contents: read
+  contents: write
   pages: write      # to deploy to Pages
   id-token: write   # to verify the deployment originates from an appropriate source
   
@@ -29,10 +29,20 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
+      - name: Get PNPM version from package.json
+        id: get-pnpm-version
+        # "packageManager" フィールドを読み取る (例: "pnpm@9.15.0")
+        # 文字列 "pnpm@9.15.0" の "9.15.0" の部分だけ切り出す
+        run: |
+          PKG_MANAGER=$(jq -r '.packageManager' package.json)
+          
+          PNPM_VERSION=${PKG_MANAGER##*@}
+          
+          echo "pnpm_version=$PNPM_VERSION" >> $GITHUB_OUTPUT
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15
+          version: ${{ steps.get-pnpm-version.outputs.pnpm_version }}
           run_install: false
 
       - name: Use Node.js ${{ matrix.node-version }}  
@@ -53,6 +63,8 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: .output/public
+          folder: frontApp/.output/public
           clean: true # 毎回一旦クリーンアップする
           commitMessage: Deploy Nuxt3  # デプロイコミット時のメッセージ
+          force: true # 強制push
+          token: ${{ secrets.GITHUB_TOKEN }} #secrets でGITHUB_TOKENを使う
