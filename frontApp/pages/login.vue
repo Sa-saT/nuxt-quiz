@@ -21,16 +21,15 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore()
 const email = ref('')
 const password = ref('')
 const errors = ref<string[]>([])
 
-const authStore = useUserStore()
-
 // ログインフォームの処理
 const submitForm = async () => {
   try {
-    await authStore.login(email.value, password.value)
+    await userStore.login(email.value, password.value)
   } catch (error) {
       errors.value = [(error as Error).message || 'An error occurred during login']
     throw error
