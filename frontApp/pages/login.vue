@@ -4,8 +4,8 @@
       <h1 class="mb-6 text-2xl">Log in</h1>
 
       <form v-on:submit.prevent="submitForm">
-        <input v-model="email" type="email" placeholder="Your email address..." class="w-full mb-4 py-4 px-6 rounded-xl"></input>
-        <input v-model="password" type="password" placeholder="Your password..." class="w-full mb-4 py-4 px-6 rounded-xl"></input>
+        <input v-model="email" type="email" placeholder="Your email address..." class="w-full mb-4 py-4 px-6 rounded-xl">
+        <input v-model="password" type="password" placeholder="Your password..." class="w-full mb-4 py-4 px-6 rounded-xl">
 
         <div v-if="errors.length" class="mb-6 py-4 px-6 bg-rose-400 text-white rounded-xl">
           <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
 const email = ref('')

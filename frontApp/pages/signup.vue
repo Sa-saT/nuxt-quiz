@@ -9,25 +9,25 @@
             type="text"
             placeholder="Your name..."
             class="w-full mb-4 py-4 px-6 rounded-xl"
-            />
+            >
             <input
             v-model="email"
             type="email"
             placeholder="Your email address..."
             class="w-full mb-4 py-4 px-6 rounded-xl"
-            />
+            >
             <input
             v-model="password1"
             type="password"
             placeholder="Your password..."
             class="w-full mb-4 py-4 px-6 rounded-xl"
-            />
+            >
             <input
             v-model="password2"
             type="password"
             placeholder="Repeat password..."
             class="w-full mb-4 py-4 px-6 rounded-xl"
-            />
+            >
 
             <div v-if="errors.length" class="mb-6 py-4 px-6 bg-rose-400 text-white rounded-xl">
             <p v-for="error in errors" :key="error">{{ error }}</p>
@@ -54,10 +54,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '../stores/user'
 import { navigateTo } from 'nuxt/app'
 // 点滅効果
-import { useSubmittingEffect } from '@/lib/submitting'
+import { useSubmittingEffect } from '../lib/submitting'
 
 const name = ref('')
 const email = ref('')

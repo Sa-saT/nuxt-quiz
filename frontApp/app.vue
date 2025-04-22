@@ -17,12 +17,12 @@ onMounted(() => {
     next()
   })
 
-  // router.afterEach(() => {
-  //   // アニメ感の為のディレイ
-  //   setTimeout(() => {
-  //     isLoading.value = false
-  //   }, 800)
-  // })
+  router.afterEach(() => {
+    // アニメ感の為のディレイ
+    setTimeout(() => {
+      isLoading.value = false
+    }, 800)
+  })
 }) 
 </script>
 
