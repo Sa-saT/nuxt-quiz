@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, unref } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '../../stores/user'
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user?.name || 'no name')
